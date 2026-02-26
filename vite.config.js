@@ -8,5 +8,5 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
-  base: 'english-play/', // for GitHub Pages deployment
+  base: '/english-study/', // for GitHub Pages deployment
 })
