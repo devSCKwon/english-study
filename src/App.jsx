@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import Layout from './components/Layout';
 import Home from './components/Home';
-import MethodImage from './components/MethodImage';
 import MethodGrade from './components/MethodGrade';
 import MethodManual from './components/MethodManual';
 import MethodCategory from './components/MethodCategory';
 import MethodRandom from './components/MethodRandom';
+import MethodUserUpload from './components/MethodUserUpload';
 import StudyArea from './components/StudyArea';
 import HistoryLog from './components/HistoryLog';
 
@@ -32,11 +32,11 @@ function App() {
 
   const handleSaveRecord = (record) => {
     const methodLabels = {
-      image: '시험지로 배우기',
       grade: '학년별 단어장',
       manual: '직접 단어 입력',
       category: '주제별 학습',
       random: '오늘의 뽑기',
+      user: '사용자 학습',
     };
 
     setHistory(prev => [{
@@ -61,11 +61,11 @@ function App() {
       </div>
 
       {currentView === 'home' && <Home onSelectMethod={handleSelectMethod} />}
-      {currentView === 'image' && <MethodImage onBack={handleBackToHome} onComplete={handleStudyReady} />}
       {currentView === 'grade' && <MethodGrade onBack={handleBackToHome} onComplete={handleStudyReady} />}
       {currentView === 'manual' && <MethodManual onBack={handleBackToHome} onComplete={handleStudyReady} />}
       {currentView === 'category' && <MethodCategory onBack={handleBackToHome} onComplete={handleStudyReady} />}
       {currentView === 'random' && <MethodRandom onBack={handleBackToHome} onComplete={handleStudyReady} />}
+      {currentView === 'user' && <MethodUserUpload onBack={handleBackToHome} onComplete={handleStudyReady} />}
 
       {currentView === 'study' && (
         <StudyArea

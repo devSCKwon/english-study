@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ArrowLeft, Search } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { dictionary } from '../data/dictionary';
 
 export default function MethodManual({ onBack, onComplete }) {
     const [word, setWord] = useState('');
@@ -12,19 +13,6 @@ export default function MethodManual({ onBack, onComplete }) {
         const words = word.split(',').map(w => w.trim()).filter(w => w);
         if (words.length === 0) return;
 
-        // 자주 사용되는 단어에 대한 미니 사전 (사전에 없는 단어를 위해 Fallback 구조 추가)
-        const dictionary = {
-            'apple': { pron: '[ˈæp.əl]', meaning: '사과', example: 'I eat an apple.', exampleMeaning: '나는 사과를 먹어요.' },
-            'banana': { pron: '[bəˈnɑː.nə]', meaning: '바나나', example: 'Monkeys love bananas.', exampleMeaning: '원숭이는 바나나를 좋아해요.' },
-            'cat': { pron: '[kæt]', meaning: '고양이', example: 'The cat is sleeping.', exampleMeaning: '고양이가 자고 있어요.' },
-            'dog': { pron: '[dɔːɡ]', meaning: '개', example: 'My dog is smart.', exampleMeaning: '나의 개는 똑똑해요.' },
-            'book': { pron: '[bʊk]', meaning: '책', example: 'I read a book.', exampleMeaning: '나는 책을 읽어요.' },
-            'school': { pron: '[skuːl]', meaning: '학교', example: 'I go to school.', exampleMeaning: '나는 학교에 갑니다.' },
-            'friend': { pron: '[frend]', meaning: '친구', example: 'He is my friend.', exampleMeaning: '그는 내 친구입니다.' },
-            'water': { pron: '[ˈwɔː.tər]', meaning: '물', example: 'Drink some water.', exampleMeaning: '물을 마시세요.' },
-            'happy': { pron: '[ˈhæp.i]', meaning: '행복한', example: 'I am very happy.', exampleMeaning: '나는 매우 행복합니다.' }
-        };
-
         const data = words.map(w => {
             const lowerW = w.toLowerCase();
             if (dictionary[lowerW]) {
@@ -33,10 +21,10 @@ export default function MethodManual({ onBack, onComplete }) {
             // 사전에 없는 경우 동적으로 생성된 패턴 적용
             return {
                 word: w,
-                pron: `[${w} 발음 기호 미확인]`,
-                meaning: `(사용자 지정 단어)`,
-                example: `I am going to practice the word '${w}'.`,
-                exampleMeaning: `나는 '${w}'라는 단어를 연습할 것입니다.`
+                pron: `[발음 미확인]`,
+                meaning: `(새로운 단어)`,
+                example: `Let's practice the word '${w}'.`,
+                exampleMeaning: `'${w}' 단어를 함께 연습해봐요.`
             };
         });
 

@@ -1,13 +1,13 @@
 import React from 'react';
-import { Image, GraduationCap, PenTool, LayoutGrid, Dices } from 'lucide-react';
+import { GraduationCap, PenTool, LayoutGrid, Dices, UploadCloud } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const methods = [
-    { id: 'image', title: '시험지로 배우기', desc: '시험지를 찍어 올리면 단어를 추출해요!', icon: Image, color: 'bg-blue-500' },
     { id: 'grade', title: '학년별 단어장', desc: '1학년부터 6학년까지 필수 단어', icon: GraduationCap, color: 'bg-green-500' },
     { id: 'manual', title: '직접 입력하기', desc: '내가 알고 싶은 단어를 직접 타이핑', icon: PenTool, color: 'bg-purple-500' },
     { id: 'category', title: '주제별 학습', desc: '동물, 우주, 음식 등 재미있는 주제들', icon: LayoutGrid, color: 'bg-orange-500' },
     { id: 'random', title: '오늘의 뽑기', desc: '어떤 단어가 나올까? 두근두근!', icon: Dices, color: 'bg-pink-500' },
+    { id: 'user', title: '사용자 학습', desc: '내가 가진 단어장 파일로 학습해요', icon: UploadCloud, color: 'bg-teal-500' },
 ];
 
 export default function Home({ onSelectMethod }) {
