@@ -2,7 +2,7 @@ import React from 'react';
 import { ArrowLeft, Clock, Award } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-export default function HistoryLog({ history, onBack }) {
+export default function HistoryLog({ history, onBack, onReview }) {
     const getGradeStr = (ratio) => {
         if (ratio === 1) return { label: 'Perfect! 🌟', color: 'text-yellow-600 bg-yellow-100' };
         if (ratio >= 0.8) return { label: 'Excellent! 👏', color: 'text-green-600 bg-green-100' };
@@ -30,13 +30,14 @@ export default function HistoryLog({ history, onBack }) {
                         {history.map((record, idx) => {
                             const grade = getGradeStr(record.ratio);
                             const date = new Date(record.date);
+                            const dateStr = date.toLocaleDateString('ko-KR', { month: 'long', day: 'numeric' });
                             const timeStr = date.toLocaleTimeString('ko-KR', { hour: '2-digit', minute: '2-digit' });
 
                             return (
                                 <div key={idx} className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-5 bg-gray-50 dark:bg-gray-700/30 rounded-2xl border border-gray-100 dark:border-gray-700">
                                     <div className="flex flex-col">
                                         <span className="text-sm text-gray-500 dark:text-gray-400 flex items-center mb-1">
-                                            <Clock size={14} className="mr-1" /> {timeStr}
+                                            <Clock size={14} className="mr-1" /> {dateStr} {timeStr}
                                         </span>
                                         <span className="text-lg font-bold text-gray-800 dark:text-gray-200">
                                             {record.correct} / {record.total} 정답
@@ -45,8 +46,18 @@ export default function HistoryLog({ history, onBack }) {
                                             학습 방식: {record.methodLabel}
                                         </span>
                                     </div>
-                                    <div className={`mt-3 sm:mt-0 px-4 py-2 rounded-xl font-bold ${grade.color}`}>
-                                        {grade.label}
+                                    <div className="flex flex-col items-end gap-2 mt-3 sm:mt-0">
+                                        <div className={`px-4 py-1 rounded-lg font-bold text-xs ${grade.color}`}>
+                                            {grade.label}
+                                        </div>
+                                        {record.wrongWords && record.wrongWords.length > 0 && (
+                                            <button
+                                              onClick={() => onReview(record.wrongWords)}
+                                              className="text-xs font-bold bg-purple-500 text-white px-3 py-2 rounded-lg hover:bg-purple-600 transition shadow-sm"
+                                            >
+                                                틀린 문제만 학습 ({record.wrongWords.length}개)
+                                            </button>
+                                        )}
                                     </div>
                                 </div>
                             );

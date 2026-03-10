@@ -22,7 +22,33 @@ export default function StudyArea({ data, onHome, onSaveRecord }) {
         if (isTestMode && !isRevealed && inputRef.current) {
             inputRef.current.focus();
         }
-    }, [currentIndex, isTestMode, isRevealed]);
+        
+        // 자동 발음 기능
+        if (currentItem) {
+            // 테스트 모드에서는 단어가 보이지 않으므로 자동으로 들려주는 것이 중요
+            // 학습 모드에서도 페이지가 넘어가면 바로 들려줌
+            const speak = () => {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(currentItem.word);
+                utterance.lang = 'en-US';
+                utterance.rate = 0.9;
+                window.speechSynthesis.speak(utterance);
+            };
+            
+            // 약간의 딜레이를 주어 전환 애니메이션과 겹치지 않게 함
+            const timer = setTimeout(speak, 300);
+            return () => clearTimeout(timer);
+        }
+    }, [currentIndex, isTestMode]);
+
+    // 정답 확인 후 공개되었을 때도 발음 (필요시)
+    useEffect(() => {
+        if (isRevealed && currentItem) {
+            const utterance = new SpeechSynthesisUtterance(currentItem.word);
+            utterance.lang = 'en-US';
+            window.speechSynthesis.speak(utterance);
+        }
+    }, [isRevealed]);
 
     const handleToggleMode = () => {
         setIsTestMode(!isTestMode);
@@ -54,20 +80,32 @@ export default function StudyArea({ data, onHome, onSaveRecord }) {
 
     const handleCheckAnswer = (e) => {
         if (e) e.preventDefault();
-        if (isRevealed || !userInput.trim()) return;
+        
+        // 이미 정답이 공개된 상태에서 엔터를 치면 다음으로 바로 넘어감
+        if (isRevealed) {
+            handleAnswer(evalStatus === 'correct');
+            return;
+        }
+
+        if (!userInput.trim()) return;
 
         // 대소문자 무시 비교
         const isCorrect = userInput.trim().toLowerCase() === currentItem.word.toLowerCase();
         setEvalStatus(isCorrect ? 'correct' : 'wrong');
         setIsRevealed(true);
 
-        // 0.5초 대기 후 자동으로 다음/모달(결과 처리)로 넘어가게 함.
-        setTimeout(() => {
+        // 1.5초 대기 후 자동으로 다음/모달(결과 처리)로 넘어가게 함. (엔터 치면 위 로직에 의해 즉시 넘어감)
+        const timer = setTimeout(() => {
             handleAnswer(isCorrect);
         }, 1500);
+        
+        return () => clearTimeout(timer);
     };
 
     const handleAnswer = (isCorrect) => {
+        // 이미 결과 목록에 추가되었는지 확인 (엔터 연타 등 방어)
+        if (results.length > currentIndex) return;
+
         const newResults = [...results, { word: currentItem.word, isCorrect }];
         setResults(newResults);
 
@@ -78,11 +116,17 @@ export default function StudyArea({ data, onHome, onSaveRecord }) {
             setEvalStatus(null);
         } else {
             const correctCount = newResults.filter(r => r.isCorrect).length;
+            // 틀린 단어들의 전체 데이터 객체를 추출
+            const wrongWords = data.filter((item, idx) => {
+                return !newResults[idx]?.isCorrect;
+            });
+
             onSaveRecord({
                 date: new Date().toISOString(),
                 total: data.length,
                 correct: correctCount,
-                ratio: correctCount / data.length
+                ratio: correctCount / data.length,
+                wrongWords: wrongWords // 틀린 문제 복습용 데이터
             });
             setShowModal(true);
         }

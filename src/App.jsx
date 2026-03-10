@@ -76,7 +76,7 @@ function App() {
       )}
 
       {currentView === 'history' && (
-        <HistoryLog history={history} onBack={handleBackToHome} />
+        <HistoryLog history={history} onBack={handleBackToHome} onReview={handleStudyReady} />
       )}
     </Layout>
   );

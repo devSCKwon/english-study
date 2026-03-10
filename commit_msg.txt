@@ -1,0 +1,6 @@
+feat: Add auto-pronunciation, enter key support, and review wrong words
+
+- Enable automatic pronunciation when a word page opens in study and test modes
+- Support Enter key to advance to the next word immediately during testing
+- Add 'Review Wrong Words' button in HistoryLog to study only missed words
+- Expand dictionary with words from 20260310.txt and more vocabulary
