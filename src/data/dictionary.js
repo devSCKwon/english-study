@@ -8,7 +8,7 @@ export const dictionary = {
     'inline skates': { pron: '[ˌɪn.laɪn ˈskeɪts]', meaning: '인라인 스케이트', example: 'I can ride inline skates.', exampleMeaning: '나는 인라인 스케이트를 탈 수 있어요.' },
     'cropped': { pron: '[krɒpt]', meaning: '짧게 깎은, 잘라낸', example: 'She has cropped hair.', exampleMeaning: '그녀는 짧게 자른 머리를 가졌어요.' },
     'pajamas': { pron: '[pəˈdʒɑː.məz]', meaning: '잠옷', example: 'I wear blue pajamas.', exampleMeaning: '나는 파란색 잠옷을 입어요.' },
-    'famliy': { pron: '[ˈfæm.əl.i]', meaning: '가족 (오타: family)', example: 'I love my family.', exampleMeaning: '나는 내 가족을 사랑해요.' },
+    'family': { pron: '[ˈfæm.əl.i]', meaning: '가족', example: 'I love my family.', exampleMeaning: '나는 내 가족을 사랑해요.' },
 
     // === 20260310.txt 필수 단어 및 추가 ===
     'candy': { pron: '[ˈæn.di]', meaning: '사탕', example: 'I like sweet candy.', exampleMeaning: '나는 달콤한 사탕을 좋아해요.' },
