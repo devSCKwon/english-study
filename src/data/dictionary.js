@@ -51,7 +51,6 @@ export const dictionary = {
     'feet': { pron: '[fiːt]', meaning: '발들 (복수)', example: 'Wash your feet.', exampleMeaning: '발을 씻으세요.' },
     'mouth': { pron: '[maʊθ]', meaning: '입', example: 'Open your mouth.', exampleMeaning: '입을 벌리세요.' },
     'grandfather': { pron: '[ˈɡræn.fɑː.ðər]', meaning: '할아버지', example: 'My grandfather is wise.', exampleMeaning: '할아버지는 지혜로우십니다.' },
-    'family': { pron: '[ˈfæm.əl.i]', meaning: '가족', example: 'I love my family.', exampleMeaning: '나는 내 가족을 사랑해요.' },
     'long': { pron: '[lɒŋ]', meaning: '긴', example: 'She has long hair.', exampleMeaning: '그녀는 머리카락이 깁니다.' },
     'skirt': { pron: '[skɜːt]', meaning: '치마', example: 'She wears a blue skirt.', exampleMeaning: '그녀는 파란색 치마를 입습니다.' },
     'wavy': { pron: '[ˈweɪ.vi]', meaning: '물결 모양의, 웨이브가 있는', example: 'She has wavy hair.', exampleMeaning: '그녀는 웨이브 진 머리카락을 가졌습니다.' },
