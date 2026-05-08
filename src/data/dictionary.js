@@ -1,4 +1,15 @@
 export const dictionary = {
+    // === 20260506.txt 학습 구문 ===
+    'draw pictures': { pron: '[drɔː ˈpɪktʃərz]', meaning: '그림을 그리다', example: 'I like to draw pictures.', exampleMeaning: '나는 그림 그리는 것을 좋아해요.' },
+    'do my homework': { pron: '[duː maɪ ˈhəʊm.wɜːk]', meaning: '내 숙제를 하다', example: 'I must do my homework.', exampleMeaning: '나는 내 숙제를 해야 해요.' },
+    'worried': { pron: '[ˈwʌr.id]', meaning: '걱정스러운', example: 'She looks worried today.', exampleMeaning: '그녀는 오늘 걱정스러워 보여요.' },
+    'wardrobe': { pron: '[ˈwɔː.drəʊb]', meaning: '옷장', example: 'I put my clothes in the wardrobe.', exampleMeaning: '나는 옷을 옷장에 넣었어요.' },
+    'chicken': { pron: '[ˈtʃɪk.ɪn]', meaning: '닭, 치킨', example: 'I like fried chicken.', exampleMeaning: '나는 프라이드 치킨을 좋아해요.' },
+    'inline skates': { pron: '[ˌɪn.laɪn ˈskeɪts]', meaning: '인라인 스케이트', example: 'I can ride inline skates.', exampleMeaning: '나는 인라인 스케이트를 탈 수 있어요.' },
+    'cropped': { pron: '[krɒpt]', meaning: '짧게 깎은, 잘라낸', example: 'She has cropped hair.', exampleMeaning: '그녀는 짧게 자른 머리를 가졌어요.' },
+    'pajamas': { pron: '[pəˈdʒɑː.məz]', meaning: '잠옷', example: 'I wear blue pajamas.', exampleMeaning: '나는 파란색 잠옷을 입어요.' },
+    'famliy': { pron: '[ˈfæm.əl.i]', meaning: '가족 (오타: family)', example: 'I love my family.', exampleMeaning: '나는 내 가족을 사랑해요.' },
+
     // === 20260310.txt 필수 단어 및 추가 ===
     'candy': { pron: '[ˈæn.di]', meaning: '사탕', example: 'I like sweet candy.', exampleMeaning: '나는 달콤한 사탕을 좋아해요.' },
     'balloon': { pron: '[bəˈluːn]', meaning: '풍선', example: 'He has a red balloon.', exampleMeaning: '그는 빨간 풍선을 가지고 있어요.' },

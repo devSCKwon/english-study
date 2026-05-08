@@ -31,20 +31,37 @@ export default function MethodUserUpload({ onBack, onComplete }) {
         reader.onload = (event) => {
             const content = event.target.result;
             // .txt might be multiline or single line with commas
-            const words = content.replace(/\n|\r/g, ',')
-                .split(',')
-                .map(w => w.trim())
-                .filter(w => w.length > 0);
+            // Split by lines first to support metadata per line
+            const lines = content.split(/\r?\n/).filter(line => line.trim().length > 0);
+            
+            const processedWords = [];
+            lines.forEach(line => {
+                if (line.includes('|')) {
+                    // format: word | meaning | pron | example | exampleMeaning
+                    const parts = line.split('|').map(p => p.trim());
+                    processedWords.push({
+                        word: parts[0],
+                        meaning: parts[1] || '',
+                        pron: parts[2] || '',
+                        example: parts[3] || '',
+                        exampleMeaning: parts[4] || ''
+                    });
+                } else {
+                    // standard comma separated
+                    const words = line.split(',').map(w => w.trim()).filter(w => w.length > 0);
+                    words.forEach(w => processedWords.push(w));
+                }
+            });
 
-            if (words.length === 0) {
-                alert('단어 파일이 비어있거나, 쉼표(,)가 없습니다.');
+            if (processedWords.length === 0) {
+                alert('단어 파일이 비어있습니다.');
                 return;
             }
 
             const newDataset = {
                 id: Date.now(),
                 name: file.name,
-                words: words,
+                words: processedWords,
                 date: new Date().toLocaleDateString()
             };
 
@@ -73,7 +90,24 @@ export default function MethodUserUpload({ onBack, onComplete }) {
         const dataset = datasets.find(d => d.id.toString() === selectedDatasetId);
         if (!dataset) return;
 
-        const data = dataset.words.map(w => {
+        const data = dataset.words.map(item => {
+            // If item is already an object (from pipe separated line)
+            if (typeof item === 'object' && item !== null) {
+                const word = item.word;
+                const lowerW = word.toLowerCase();
+                const dictEntry = dictionary[lowerW] || {};
+                
+                return {
+                    word: word,
+                    pron: item.pron || dictEntry.pron || `[발음 미확인]`,
+                    meaning: item.meaning || dictEntry.meaning || `(새로운 단어)`,
+                    example: item.example || dictEntry.example || `Let's practice the word '${word}'.`,
+                    exampleMeaning: item.exampleMeaning || dictEntry.exampleMeaning || `'${word}' 단어를 함께 연습해봐요.`
+                };
+            }
+
+            // If item is just a string
+            const w = item;
             const lowerW = w.toLowerCase();
             if (dictionary[lowerW]) {
                 return { word: w, ...dictionary[lowerW] };

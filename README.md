@@ -1,16 +1,56 @@
-# React + Vite
+# English Play (영어로 놀자) 🎮
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+초등학생부터 누구나 쉽고 재미있게 영어를 공부할 수 있는 맞춤형 영어 학습 웹 애플리케이션입니다.
 
-Currently, two official plugins are available:
+## 🚀 주요 기능
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **학년별 단어장**: 1학년부터 6학년까지 학년별 필수 영단어를 단계별로 학습할 수 있습니다.
+- **직접 입력하기**: 내가 공부하고 싶은 단어를 직접 입력하여 맞춤형 단어장을 만듭니다.
+- **주제별 학습**: 동물, 우주, 음식 등 흥미로운 주제별로 단어를 재미있게 익힙니다.
+- **오늘의 뽑기**: 어떤 단어가 나올지 기대되는 랜덤 뽑기 방식으로 학습합니다.
+- **사용자 학습**: 직접 작성한 단어장 파일을 업로드하여 자유롭게 학습할 수 있습니다.
+- **학습 기록 관리**: 나의 학습 기록을 확인하고 복습할 수 있는 기능을 제공합니다.
 
-## React Compiler
+## 🛠 기술 스택
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Frontend**: React 19, Vite, Tailwind CSS 4
+- **Animation**: Framer Motion
+- **Icons**: Lucide React
 
-## Expanding the ESLint configuration
+## 🏃 실행 방법
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 1. 프로젝트 복제 및 이동
+```bash
+git clone [repository-url]
+cd english-study
+```
+
+### 2. 의존성 설치
+이 프로젝트는 `npm`을 사용하여 패키지를 관리합니다.
+```bash
+npm install
+```
+
+### 3. 개발 서버 실행
+로컬 환경에서 프로젝트를 실행하려면 다음 명령어를 사용하세요.
+```bash
+npm run dev
+```
+기본적으로 `http://localhost:5173` 주소에서 확인할 수 있습니다.
+
+### 4. 빌드 및 배포
+프로덕션용 빌드 파일을 생성하려면 다음 명령어를 사용하세요.
+```bash
+npm run build
+```
+결과물은 `dist` 폴더에 생성됩니다.
+
+## 📁 디렉토리 구조
+
+- `src/components`: UI 컴포넌트 및 학습 기능별 컴포넌트
+- `src/data`: 학년별/주제별 기본 데이터셋
+- `src/context`: 애플리케이션 상태 관리
+- `src/assets`: 이미지 및 스타일 파일
+
+---
+© 2026 English Play. All rights reserved.
