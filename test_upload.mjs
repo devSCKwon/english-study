@@ -12,6 +12,9 @@ import { expect } from '@playwright/test';
         console.log("Clicking '사용자 학습'...");
         await page.getByText('사용자 학습').click();
 
+        console.log("Clicking '직접 파일 업로드' tab...");
+        await page.getByText('직접 파일 업로드').click();
+
         console.log("Uploading file...");
         // In playwright, we can set the input files directly
         const fileChooserPromise = page.waitForEvent('filechooser');
@@ -34,8 +37,8 @@ import { expect } from '@playwright/test';
         await page.waitForTimeout(1000); // Give it a sec to render
         const bodyText = await page.locator('body').innerText();
 
-        if (bodyText.includes('단어 1 / 8') && bodyText.includes('dog')) {
-            console.log("SUCCESS: Upload and study flow worked perfectly! Found '단어 1 / 8' and 'dog'.");
+        if (bodyText.includes('단어 1 / 10') && bodyText.includes('sister')) {
+            console.log("SUCCESS: Upload and study flow worked perfectly! Found '단어 1 / 10' and 'sister'.");
         } else {
             console.log("FAILED: Could not find expected study UI text. Body text:", bodyText);
         }

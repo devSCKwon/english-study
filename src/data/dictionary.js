@@ -1,4 +1,9 @@
 export const dictionary = {
+    // === 20260610.txt 학습 구문 ===
+    'mushroom': { pron: '[ˈmʌʃ.ruːm]', meaning: '버섯', example: 'I like mushroom soup.', exampleMeaning: '나는 버섯 수프를 좋아합니다.' },
+    'grandparents': { pron: '[ˈɡræn.peə.rənts]', meaning: '조부모님', example: 'I visit my grandparents.', exampleMeaning: '나는 조부모님을 방문합니다.' },
+    'straight': { pron: '[streɪt]', meaning: '곧은, 생머리의', example: 'She has straight hair.', exampleMeaning: '그녀는 생머리(곧은 머리)를 가졌습니다.' },
+
     // === 20260506.txt 학습 구문 ===
     'draw pictures': { pron: '[drɔː ˈpɪktʃərz]', meaning: '그림을 그리다', example: 'I like to draw pictures.', exampleMeaning: '나는 그림 그리는 것을 좋아해요.' },
     'do my homework': { pron: '[duː maɪ ˈhəʊm.wɜːk]', meaning: '내 숙제를 하다', example: 'I must do my homework.', exampleMeaning: '나는 내 숙제를 해야 해요.' },
