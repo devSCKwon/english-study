@@ -3,6 +3,7 @@ export const dictionary = {
     'mushroom': { pron: '[ˈmʌʃ.ruːm]', meaning: '버섯', example: 'I like mushroom soup.', exampleMeaning: '나는 버섯 수프를 좋아합니다.' },
     'grandparents': { pron: '[ˈɡræn.peə.rənts]', meaning: '조부모님', example: 'I visit my grandparents.', exampleMeaning: '나는 조부모님을 방문합니다.' },
     'straight': { pron: '[streɪt]', meaning: '곧은, 생머리의', example: 'She has straight hair.', exampleMeaning: '그녀는 생머리(곧은 머리)를 가졌습니다.' },
+    'cousin': { pron: '[ˈkʌz.ən]', meaning: '사촌', example: 'He is my cousin.', exampleMeaning: '그는 나의 사촌입니다.' },
 
     // === 20260506.txt 학습 구문 ===
     'draw pictures': { pron: '[drɔː ˈpɪktʃərz]', meaning: '그림을 그리다', example: 'I like to draw pictures.', exampleMeaning: '나는 그림 그리는 것을 좋아해요.' },
