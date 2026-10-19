@@ -5,6 +5,7 @@ import { dictionary } from '../data/dictionary';
 
 // 시스템에서 기본 제공하는 단어장 리스트
 const PRESET_DATASETS = [
+    { id: '20261020', name: '2026년 10월 20일 단어장', file: '20261020.txt', desc: '일상 사물, 동작, 장소 등 종합 단어', count: 77, date: '2026-10-20' },
     { id: '20260610', name: '2026년 06월 10일 단어장', file: '20260610.txt', desc: '신체 부위, 옷, 가족 관련 단어', count: 24, date: '2026-06-10' },
     { id: '20260506', name: '2026년 05월 06일 단어장', file: '20260506.txt', desc: '동작, 사물 관련 단어', count: 12, date: '2026-05-06' },
     { id: '20260310', name: '2026년 03월 10일 단어장', file: '20260310.txt', desc: '동물, 과일, 음식 관련 단어', count: 24, date: '2026-03-10' },
