@@ -5,6 +5,8 @@ import { dictionary } from '../data/dictionary';
 
 // 시스템에서 기본 제공하는 단어장 리스트
 const PRESET_DATASETS = [
+    { id: '20261021', name: '2026년 10월 21일 단어장', file: '20261021.txt', desc: '바다생물, 직업, 장소, 일상 종합 단어', count: 52, date: '2026-10-21' },
+    { id: '20261020_2', name: '2026년 10월 20일 2차 단어장', file: '20261020_2.txt', desc: '놀이, 생활동작, 해양, 일상 단어', count: 26, date: '2026-10-20' },
     { id: '20261020', name: '2026년 10월 20일 단어장', file: '20261020.txt', desc: '일상 사물, 동작, 장소 등 종합 단어', count: 77, date: '2026-10-20' },
     { id: '20260610', name: '2026년 06월 10일 단어장', file: '20260610.txt', desc: '신체 부위, 옷, 가족 관련 단어', count: 24, date: '2026-06-10' },
     { id: '20260506', name: '2026년 05월 06일 단어장', file: '20260506.txt', desc: '동작, 사물 관련 단어', count: 12, date: '2026-05-06' },
@@ -35,28 +37,70 @@ export default function MethodUserUpload({ onBack, onComplete }) {
         }
     }, []);
 
+    // 대괄호([]) 안의 쉼표를 보존하며 쉼표로 분리하는 파서 함수
+    const parseLineWithBrackets = (line) => {
+        const result = [];
+        let current = '';
+        let inBracket = false;
+        for (let i = 0; i < line.length; i++) {
+            const char = line[i];
+            if (char === '[') {
+                inBracket = true;
+                current += char;
+            } else if (char === ']') {
+                inBracket = false;
+                current += char;
+            } else if (char === ',' && !inBracket) {
+                if (current.trim().length > 0) result.push(current.trim());
+                current = '';
+            } else {
+                current += char;
+            }
+        }
+        if (current.trim().length > 0) result.push(current.trim());
+        return result;
+    };
+
     // 텍스트 파일 파싱 및 딕셔너리 매핑 공통 함수
     const parseWordsAndStart = (content, sourceName) => {
         const lines = content.split(/\r?\n/).filter(line => line.trim().length > 0);
         const processedWords = [];
 
-        lines.forEach(line => {
-            if (line.includes('|')) {
-                // 파이프(|) 구분 형식 지원: 단어 | 뜻 | 발음 | 예문 | 예문 뜻
-                const parts = line.split('|').map(p => p.trim());
-                processedWords.push({
-                    word: parts[0],
-                    meaning: parts[1] || '',
-                    pron: parts[2] || '',
-                    example: parts[3] || '',
-                    exampleMeaning: parts[4] || ''
+        // 2줄 형식 지원: 첫 번째 줄은 영단어, 두 번째 줄은 뜻 목록(대괄호 지원)
+        if (lines.length >= 2 && !lines[0].includes('|')) {
+            const rawWords = lines[0].split(',').map(w => w.trim()).filter(w => w.length > 0);
+            const rawMeanings = parseLineWithBrackets(lines[1]);
+
+            if (rawWords.length > 0 && rawWords.length === rawMeanings.length) {
+                rawWords.forEach((word, idx) => {
+                    processedWords.push({
+                        word: word,
+                        meaning: rawMeanings[idx]
+                    });
                 });
-            } else {
-                // 쉼표(,) 구분 형식 지원
-                const words = line.split(',').map(w => w.trim()).filter(w => w.length > 0);
-                words.forEach(w => processedWords.push(w));
             }
-        });
+        }
+
+        // 2줄 형식이 아니거나 매칭되지 않은 경우 기본 파싱
+        if (processedWords.length === 0) {
+            lines.forEach(line => {
+                if (line.includes('|')) {
+                    // 파이프(|) 구분 형식 지원: 단어 | 뜻 | 발음 | 예문 | 예문 뜻
+                    const parts = line.split('|').map(p => p.trim());
+                    processedWords.push({
+                        word: parts[0],
+                        meaning: parts[1] || '',
+                        pron: parts[2] || '',
+                        example: parts[3] || '',
+                        exampleMeaning: parts[4] || ''
+                    });
+                } else {
+                    // 쉼표(,) 구분 형식 지원
+                    const words = line.split(',').map(w => w.trim()).filter(w => w.length > 0);
+                    words.forEach(w => processedWords.push(w));
+                }
+            });
+        }
 
         if (processedWords.length === 0) {
             alert('단어장에 유효한 단어가 없습니다.');
