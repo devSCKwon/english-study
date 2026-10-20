@@ -28,3 +28,11 @@ implementation_plan.md
 task.md
 walkthrough.md
 
+# Test scripts & temporary files
+test_words_check.mjs
+test_upload.mjs
+test_words.txt
+test_*.mjs
+test_*.js
+
+
