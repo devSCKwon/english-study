@@ -1,4 +1,11 @@
 export const dictionary = {
+    // === 20261027.txt 학습 단어 매핑 보완 ===
+    'dog house': { pron: '[ˈdɒɡ.haʊs]', meaning: '개집', example: 'The puppy sleeps in the dog house.', exampleMeaning: '강아지가 개집에서 자고 있어요.' },
+    'block': { pron: '[blɒk]', meaning: '블록', example: 'The baby builds a tall tower with a block.', exampleMeaning: '아기가 블록으로 높은 탑을 쌓아요.' },
+    'water the plant': { pron: '[ˈwɔː.tər ðə plɑːnt]', meaning: '화분에 물을 주다', example: "Don't forget to water the plant every morning.", exampleMeaning: '매일 아침 화분에 물 주는 것을 잊지 마세요.' },
+    'wash my teeth': { pron: '[wɒʃ maɪ tiːθ]', meaning: '이를 닦다', example: 'I wash my teeth before going to bed.', exampleMeaning: '나는 잠자리에 들기 전에 이를 닦아요.' },
+    'throw a ball': { pron: '[θrəʊ ə bɔːl]', meaning: '공을 던지다', example: 'Throw a ball to your friend.', exampleMeaning: '친구에게 공을 던지세요.' },
+
     // === 20261023.txt 학습 단어 ===
     'post office': { pron: '[ˈpəʊst ˌɒf.ɪs]', meaning: '우체국', example: 'I went to the post office to mail a letter.', exampleMeaning: '나는 편지를 부치러 우체국에 갔어요.' },
     'postoffice': { pron: '[ˈpəʊst ˌɒf.ɪs]', meaning: '우체국', example: 'I went to the post office to mail a letter.', exampleMeaning: '나는 편지를 부치러 우체국에 갔어요.' },
