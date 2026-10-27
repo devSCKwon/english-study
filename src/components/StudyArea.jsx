@@ -15,18 +15,44 @@ export default function StudyArea({ data, onHome, onSaveRecord }) {
     const [userInput, setUserInput] = useState('');
     const [evalStatus, setEvalStatus] = useState(null); // 'correct' | 'wrong' | null
     const inputRef = useRef(null);
+    const timerRef = useRef(null);
 
     const currentItem = data ? data[currentIndex] : null;
 
-    useEffect(() => {
-        if (isTestMode && !isRevealed && inputRef.current) {
+    // 타이머 정리 함수
+    const clearNextTimer = () => {
+        if (timerRef.current) {
+            clearTimeout(timerRef.current);
+            timerRef.current = null;
+        }
+    };
+
+    // 입력창 포커스 함수 (커서 위치)
+    const focusInput = () => {
+        if (inputRef.current) {
             inputRef.current.focus();
         }
-        
-        // 자동 발음 기능
+    };
+
+    // 문제 변경 및 모드 변경 시 입력창에 자동으로 커서(tabstop) 위치 보장
+    useEffect(() => {
+        if (isTestMode && !isRevealed) {
+            focusInput();
+            // Framer-motion 애니메이션 및 마운트 타이밍 대응을 위한 다중 딜레이 포커스
+            const t1 = setTimeout(focusInput, 50);
+            const t2 = setTimeout(focusInput, 200);
+            const t3 = setTimeout(focusInput, 350);
+            return () => {
+                clearTimeout(t1);
+                clearTimeout(t2);
+                clearTimeout(t3);
+            };
+        }
+    }, [currentIndex, isTestMode, isRevealed]);
+
+    // 자동 발음 기능
+    useEffect(() => {
         if (currentItem) {
-            // 테스트 모드에서는 단어가 보이지 않으므로 자동으로 들려주는 것이 중요
-            // 학습 모드에서도 페이지가 넘어가면 바로 들려줌
             const speak = () => {
                 window.speechSynthesis.cancel();
                 const utterance = new SpeechSynthesisUtterance(currentItem.word);
@@ -35,13 +61,12 @@ export default function StudyArea({ data, onHome, onSaveRecord }) {
                 window.speechSynthesis.speak(utterance);
             };
             
-            // 약간의 딜레이를 주어 전환 애니메이션과 겹치지 않게 함
             const timer = setTimeout(speak, 300);
             return () => clearTimeout(timer);
         }
     }, [currentIndex, isTestMode]);
 
-    // 정답 확인 후 공개되었을 때도 발음 (필요시)
+    // 정답 확인 후 공개되었을 때도 발음
     useEffect(() => {
         if (isRevealed && currentItem) {
             const utterance = new SpeechSynthesisUtterance(currentItem.word);
@@ -50,7 +75,21 @@ export default function StudyArea({ data, onHome, onSaveRecord }) {
         }
     }, [isRevealed]);
 
+    // 정답/오답 확인 상태에서 엔터 키를 누르면 즉시 다음 문제로 진행
+    useEffect(() => {
+        const handleGlobalKeyDown = (e) => {
+            if (e.key === 'Enter' && isTestMode && isRevealed) {
+                e.preventDefault();
+                clearNextTimer();
+                handleAnswer(evalStatus === 'correct');
+            }
+        };
+        window.addEventListener('keydown', handleGlobalKeyDown);
+        return () => window.removeEventListener('keydown', handleGlobalKeyDown);
+    }, [isTestMode, isRevealed, evalStatus, currentIndex, results]);
+
     const handleToggleMode = () => {
+        clearNextTimer();
         setIsTestMode(!isTestMode);
         setCurrentIndex(0);
         setResults([]);
@@ -62,6 +101,7 @@ export default function StudyArea({ data, onHome, onSaveRecord }) {
 
     const handleNext = () => {
         if (currentIndex < data.length - 1) {
+            clearNextTimer();
             setCurrentIndex(curr => curr + 1);
             setIsRevealed(false);
             setUserInput('');
@@ -71,6 +111,7 @@ export default function StudyArea({ data, onHome, onSaveRecord }) {
 
     const handlePrev = () => {
         if (currentIndex > 0) {
+            clearNextTimer();
             setCurrentIndex(curr => curr - 1);
             setIsRevealed(false);
             setUserInput('');
@@ -83,26 +124,27 @@ export default function StudyArea({ data, onHome, onSaveRecord }) {
         
         // 이미 정답이 공개된 상태에서 엔터를 치면 다음으로 바로 넘어감
         if (isRevealed) {
+            clearNextTimer();
             handleAnswer(evalStatus === 'correct');
             return;
         }
 
         if (!userInput.trim()) return;
 
+        clearNextTimer();
         // 대소문자 무시 비교
         const isCorrect = userInput.trim().toLowerCase() === currentItem.word.toLowerCase();
         setEvalStatus(isCorrect ? 'correct' : 'wrong');
         setIsRevealed(true);
 
-        // 1.5초 대기 후 자동으로 다음/모달(결과 처리)로 넘어가게 함. (엔터 치면 위 로직에 의해 즉시 넘어감)
-        const timer = setTimeout(() => {
+        // 1.5초 대기 후 자동으로 다음/모달(결과 처리)로 넘어가게 함
+        timerRef.current = setTimeout(() => {
             handleAnswer(isCorrect);
         }, 1500);
-        
-        return () => clearTimeout(timer);
     };
 
     const handleAnswer = (isCorrect) => {
+        clearNextTimer();
         // 이미 결과 목록에 추가되었는지 확인 (엔터 연타 등 방어)
         if (results.length > currentIndex) return;
 
@@ -133,6 +175,7 @@ export default function StudyArea({ data, onHome, onSaveRecord }) {
     };
 
     const handleRetryTest = () => {
+        clearNextTimer();
         setCurrentIndex(0);
         setResults([]);
         setIsRevealed(false);
@@ -238,11 +281,21 @@ export default function StudyArea({ data, onHome, onSaveRecord }) {
                             {isTestMode && (
                                 <form onSubmit={handleCheckAnswer} className="w-full max-w-sm mt-4 relative">
                                     <input
-                                        ref={inputRef}
+                                        ref={(el) => {
+                                            inputRef.current = el;
+                                            if (el && isTestMode && !isRevealed) {
+                                                el.focus();
+                                            }
+                                        }}
                                         type="text"
-                                        disabled={isRevealed}
+                                        autoFocus
+                                        readOnly={isRevealed}
                                         value={userInput}
-                                        onChange={(e) => setUserInput(e.target.value)}
+                                        onChange={(e) => {
+                                            if (!isRevealed) {
+                                                setUserInput(e.target.value);
+                                            }
+                                        }}
                                         placeholder="들려주는 단어를 적어보세요!"
                                         className={`w-full px-6 py-4 text-center text-2xl font-bold rounded-2xl border-4 transition-all outline-none 
                       ${evalStatus === 'correct'
@@ -251,6 +304,7 @@ export default function StudyArea({ data, onHome, onSaveRecord }) {
                                                     ? 'border-red-400 bg-red-50 text-red-700 dark:border-red-500 dark:bg-red-900/30'
                                                     : 'border-purple-200 focus:border-purple-500 bg-gray-50 dark:bg-gray-700/50 dark:border-gray-600 dark:text-white dark:focus:border-purple-400'
                                             }
+                      ${isRevealed ? 'cursor-default select-none' : ''}
                     `}
                                     />
                                     {!isRevealed && (
